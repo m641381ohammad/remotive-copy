@@ -1,39 +1,31 @@
+const form_select = document.querySelector(".form-select")
+const All_categories = document.querySelector(".All_categories")
+const design = document.querySelector(".design")
+const SEO = document.querySelector(".SEO")
+const All_Types = document.querySelector(".All_Types")
+const full_time = document.querySelector(".full_time")
+const part_time = document.querySelector(".part_time")
 
 $(document).ready(function () {
 
-
-    // console.log('ready')
-    $("#search_Btn").click(function () {
-        // console.log('search_Btn  click')
-
+    $("#search_Btn").click(function () { 
         $.ajax({
             type: 'GET',
             url: 'https://remotive.com/api/remote-jobs',
             dataType: "json",
 
-            success: function (s) {
+                success: function (s) { 
+
+                for(let x; x<=s.jobs[0].tags.value; x++){
+                        let tags = `<div class="box-item">${s.jobs[0].tags.value}</div>`
+                        $("#items_tags").append(tags);
+                        console.log(tags);
+                    }
 
 
-                console.log('success')
-                // console.log(s.jobs[0].tags)
-                // console.log('value')
+                for (let i = 0; i<=s.jobs.length; i++) {
 
-                // console.log(s.jobs[0].tags.value)
-                var rawTags = s.jobs[0].tags;
-                var allTags = '';
-
-                var tagsDiv = '';
-                rawTags.forEach(tg => {
-                    allTags += tg + ','
-                    let tags = `<div class="box-item">${tg}</div>`
-                    
-                    tagsDiv += tags;
-                });
-
-
-                // console.log('allTags: ' + allTags);
-
-                var jobCard = `
+                                        var jobCard = `
                     <div class="card col-md-12 col-sm-12">
 
                     <div class="card-body ">
@@ -41,39 +33,32 @@ $(document).ready(function () {
                         <div class="row">
 
                             <div class="img  col-md-3 col-sm-12">
-                                <img src="${s.jobs[0].company_logo}" alt="">
+                                <img src= "${s.jobs[i].company_logo}" alt="">
                             </div>
 
                             <div class="prembale col-md-9 col-sm-12">
 
-                                <span class="comp-name">${s.jobs[0].company_name}</span><br>
-                                <span class="comp-loc">${s.jobs[0].candidate_required_location}</span>
-                            </div>
+                                <span class="comp-name">${s.jobs[i].company_name}</span><br>
+                                <span class="comp-loc">${s.jobs[i].candidate_required_location}</span>   
+                            </div> 
                         </div>
                         <br>
                         <div class="tozihat-job">
 
-                            <h1>${s.jobs[0].title}</h1><br>
-                            <h4> - Category : <span> ${s.jobs[0].category} </span></h4>
-                            <h4> - Job Type : <span> ${s.jobs[0].job_type} </span></h4>
+                            <h1>${s.jobs[i].title}</h1><br>
+                            <h4> - Category : <span> ${s.jobs[i].category} </span></h4>
+                            <h4> - Job Type : <span> ${s.jobs[i].job_type} </span></h4>
 
                             <div class="Description">
                                 <label> - Description :</label><br>
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, voluptatibus!
-                                <p>${s.jobs[0].description}</p>
+                                <p>${s.jobs[i].description}</p>
                             </div>
 
-                            <label> - Salary : </label><span>${s.jobs[0].salary}</span>
+                            <label> - Salary : </label><span>${s.jobs[i].salary}</span>
 
                             <h4> - Tags</h4>
-                            ${tagsDiv}
-                                
-                                
-
-                                
-                                
-
-                            </div>
+                            <div class="tags-item" id="items_tags"> </div>
 
                         </div>
                         <div class="d-flex flex-row-reverse max-width">
@@ -82,23 +67,19 @@ $(document).ready(function () {
                     </div>
                 </div>`
 
-                // $("#result").append(jobCard);
-                // console.log(s.jobs[5]);
-
-                for(let i =0; i<=s.jobs.length; i++) {
-                    $("#result").append(jobCard);   
+                    $("#result").append(jobCard);
                 }
 
-            },
+                },
 
-            error: function (request, status, error) {
-
-                alert("Error is : " + error);
-            }
-
+                error: function (request, status, error) {
+    
+                    alert("Error is : " + error);
+                }
+            
         });
-
-
+    
+        
 
 
 
